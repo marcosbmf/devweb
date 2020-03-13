@@ -1,0 +1,13 @@
+.calendar table{
+    table-layout: fixed;
+    width: 100%;
+    align-self: center
+}
+
+.calendar *{
+    border: 1px solid black;
+}
+
+.days *{
+    text-align: center
+}
