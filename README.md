@@ -7,13 +7,13 @@ Repositório para a disciplina Princípios de Desenvolvimento Web
 - Cada tarefa pode ser subdividida em outras menores. O usuário pode escolher um deadline para cada uma delas.
 - As tarefas e subtarefas podem ser modificadas à necessidade do usuário.
 
-## Primeira Tela
+### Primeira Tela
 
 - Os projetos são listados.
 - Botão para criar projetos.
 - Informações básicas de cada projeto, como deadline, tarefas com deadline próximo...
 
-## Segunda Tela
+### Segunda Tela
 
 - Acionada ao clicar em um projeto.
 - Overview do projeto. Algumas estatísticas. Adição de tarefas. 
@@ -24,6 +24,6 @@ Repositório para a disciplina Princípios de Desenvolvimento Web
 - Tela referente a uma tarefa.
 - Possível adicionar passos, descrição, observações, anotações de progresso.
 
-#### Adicionais:
+### Adicionais:
 - Compartilhamento de projetos entre usuários.
 - Tipos de projeto com estruturas diferentes. Projeto financeiro. Projeto de mudança de hábito.
