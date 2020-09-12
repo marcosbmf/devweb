@@ -3,9 +3,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var dotenv = require('dotenv');
+var mongoose = require("mongoose")
 
 // INIT
 dotenv.config();
+
+// Database
+var mongoDB = process.env.MONGO_URI;
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true});
+var db = mongoose.connection
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // Routers
 var indexRouter = require('./routes/index');

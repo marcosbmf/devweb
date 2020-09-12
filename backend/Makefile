@@ -1,2 +1,4 @@
 dev-run:
-	npm start
+	docker-compose up -d
+	npm install
+	npm run live
