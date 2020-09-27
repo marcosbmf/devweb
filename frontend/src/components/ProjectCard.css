@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    background-color: lightgrey;
+    width: 300px;
+    min-height: 100%;
+}
+
+.container .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    background-color: white;
+    width: auto;
+    min-height: 100%;
+}
+
+#checkboxes label {
+    float: left;
+}
+
+#checkboxes ul {
+    margin: 0;
+    list-style: none;
+    float: left;
+}
