@@ -1,0 +1,60 @@
+[{  
+    "name": "DevWebSemanal",
+    "description": "Tarefa semanal de dev web: https://github.com/matheusgr/devweb",
+    "deadline": "2020-10-10",
+    "statusList": ["TODO", "DOING", "DONE"],
+    "tasks": [
+        {
+            "id": 1,
+            "name": "Task 1",
+            "deadline": "2020-11-11",
+            "description": "Task 1 should be TODO",
+            "status": "TODO"
+        },
+        {
+            "id": 2,
+            "name": "Task 2",
+            "deadline": "2020-10-10",
+            "description": "Task 2 should be DOING",
+            "status": "DOING"
+        },
+        {
+            "id": 3,
+            "name": "Task 3",
+            "deadline": "2020-11-11",
+            "description": "Task 3 should be DONE",
+            "status": "DONE"
+        }
+    ],
+    "user": "10203040"
+},
+{  
+    "name": "Fazer a feira",
+    "description": "Comprar ingredientes pra um bife bem delicioso",
+    "statusList": ["TODO", "DOING", "DONE"],
+    "deadline": "2020-12-10",
+    "tasks": [
+        {
+            "id": "1",
+            "name": "Task 1",
+            "deadline": "2020-11-11",
+            "description": "Task 1 should be TODO",
+            "status": "TODO"
+        },
+        {
+            "id": "2",
+            "name": "Task 2",
+            "deadline": "2020-10-10",
+            "description": "Task 1 should be TODO",
+            "status": "TODO"
+        },
+        {
+            "id": "3",
+            "name": "Task 3",
+            "deadline": "2020-11-11",
+            "description": "Task 1 should be TODO",
+            "status": "TODO"
+        }
+    ],
+    "user": "10203040"
+}]

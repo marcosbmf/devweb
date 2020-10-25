@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    min-height: 100%;
+}
+
+.container .header {
+    background-color: lightskyblue;
+    border-bottom: thick double black;
+}
+
+.tasksLists {
+    display: flex;
+    justify-content: left;
+    overflow-y: scroll;
+    column-gap: 10px;
+}
