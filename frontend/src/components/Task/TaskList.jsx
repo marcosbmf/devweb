@@ -3,9 +3,8 @@ import TaskItem from "./TaskItem"
 import { Droppable } from "react-beautiful-dnd"
 import './TaskList.css'
 
-const TaskList = ({name, tasks}) => {
+const TaskList = ({name, tasks, project}) => {
     return (
-        
             <figure className='taskList'>
                 <figcaption>{name}</figcaption>
                 <Droppable droppableId={name}>
@@ -14,7 +13,7 @@ const TaskList = ({name, tasks}) => {
                             ref={provided.innerRef} 
                             {...provided.droppableProps}
                         >
-                            {tasks.map((t, i) => <TaskItem key={t.id} task={t} index={i}/>)}
+                            {tasks.map((t, i) => <TaskItem key={t.id} task={t} index={i} project={project}/>)}
                             {provided.placeholder}
                         </ul>
                     )}

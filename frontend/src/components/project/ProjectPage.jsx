@@ -1,10 +1,16 @@
 import React from "react"
 import { DragDropContext } from "react-beautiful-dnd"
 import TaskList from "../Task/TaskList.jsx"
+import TaskModal from "../Task/TaskModal.jsx"
 import "./ProjectPage.css"
 
-const taskLists = (props) => {
-    return props.statusList.map(status => <TaskList key={status} name={status} tasks={props.tasks.filter(t => t.status === status)}/>)
+const taskLists = (project) => {
+    return project.statusList.map(status => <TaskList
+            project={project}
+            key={status}
+            name={status}
+            tasks={project.tasks.filter(t => t.status === status)}
+        />)
 }
 
 const taskListsStyles = (project) => ({
@@ -12,20 +18,23 @@ const taskListsStyles = (project) => ({
 })
 
 const ProjectPage = ({
-    props,
+    project,
     setTasksOrder
 }) => {
     return (
         <div className="container">
             <div className="header">
-                <h1>{props.name}</h1>
-                <div><b>Description:</b><span>{props.description}</span></div>
-                <div><b>Deadline:</b> {(new Date(props.deadline)).toLocaleDateString()}</div>
+                <h1>{project.name}</h1>
+                <div><b>Description:</b><span>{project.description}</span></div>
+                <div><b>Deadline:</b> {(new Date(project.deadline)).toLocaleDateString()}</div>
             </div>
             <div className='footer'>
                 <h3>Tasks:</h3>
+                <TaskModal 
+                    project={project}
+                ></TaskModal>
                 <DragDropContext onDragEnd={setTasksOrder}>
-                    <div className="tasksLists" style={taskListsStyles(props)}>{taskLists(props)}</div>
+                    <div className="tasksLists" style={taskListsStyles(project)}>{taskLists(project)}</div>
                 </DragDropContext> 
             </div>
         </div>
