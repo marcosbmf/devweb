@@ -3,12 +3,15 @@ import './TaskItem.css'
 import {Draggable} from 'react-beautiful-dnd'
 import TaskModal from './TaskModal'
 
-const TaskItem = ({ task, index, project }) => {
+const TaskItem = ({ task, index, project, modalTeardown }) => {
     const [edit, setEdit] = useState(false)
     const setTrue = () => setEdit(true)
-    const teardown = () => setEdit(false)
+    const teardown = () => {
+        setEdit(false)
+        modalTeardown()
+    }
     return (
-        <Draggable draggableId={task.id} index={index}>
+        <Draggable draggableId={""+task.id} index={index}>
             {provided => (
                 <li className='taskItem' 
                     {...provided.draggableProps}

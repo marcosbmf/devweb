@@ -2,6 +2,12 @@ import React, { useState } from 'react'
 import Modal from 'react-modal'
 import moment from 'moment'
 
+import {
+    addTask,
+    updateTask,
+    deleteTask
+} from '../../services/api'
+
 const customStyles = {
     content : {
       top                   : '50%',
@@ -14,13 +20,13 @@ const customStyles = {
     }
 };
 
-function TaskModal({teardown, project, saveTask, deleteTask, edit}){
+function TaskModal({teardown, project, edit}){
     const [modalIsOpen, setModalIsOpen] = useState(!!edit);
     const [task, setTask] = useState({
             name: "",
             deadline: moment().toISOString(true).slice(0, 10),
             description: "",
-            status: "",
+            status: "TODO",
             ...(edit || {})
         });
 
@@ -29,33 +35,33 @@ function TaskModal({teardown, project, saveTask, deleteTask, edit}){
         let val = event.target.value
         setTask({...task, [nam]: val})
     }
-    console.log(task)
 
     const openModal = ()=>{
         setModalIsOpen(true)
     }
 
     const closeModal = ()=>{
-        if (teardown) {
-            teardown()
-        }
         setModalIsOpen(false)
     }
 
     const save = () => {
-        saveTask(task)
-        setModalIsOpen(false)
+        edit ? updateTask(project.id, task.id, task) : addTask(project.id, task)
+        closeModal()
     }
 
     const deleteButton = () => {
-        deleteTask(task)
-        setModalIsOpen(false)
+        if (edit) deleteTask(project.id, task.id)
+        closeModal()
     }
 
     return(
         <>
            {!edit ? <button onClick={openModal}>Add Task</button> : null}
-           <Modal isOpen={modalIsOpen} style={customStyles}>
+           <Modal 
+                isOpen={modalIsOpen} 
+                style={customStyles}
+                onAfterClose={teardown}
+           >
                 <p>{edit ? "EDIT" : "ADD" } TASK: </p>
                 <form>
                     <div>

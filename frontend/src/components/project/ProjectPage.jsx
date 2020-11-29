@@ -4,11 +4,12 @@ import TaskList from "../Task/TaskList.jsx"
 import TaskModal from "../Task/TaskModal.jsx"
 import "./ProjectPage.css"
 
-const taskLists = (project) => {
+const taskLists = (project, modalTeardown) => {
     return project.statusList.map(status => <TaskList
             project={project}
             key={status}
             name={status}
+            modalTeardown={modalTeardown}
             tasks={project.tasks.filter(t => t.status === status)}
         />)
 }
@@ -19,6 +20,7 @@ const taskListsStyles = (project) => ({
 
 const ProjectPage = ({
     project,
+    modalTeardown,
     setTasksOrder
 }) => {
     return (
@@ -32,9 +34,10 @@ const ProjectPage = ({
                 <h3>Tasks:</h3>
                 <TaskModal 
                     project={project}
+                    teardown={modalTeardown}
                 ></TaskModal>
                 <DragDropContext onDragEnd={setTasksOrder}>
-                    <div className="tasksLists" style={taskListsStyles(project)}>{taskLists(project)}</div>
+                    <div className="tasksLists" style={taskListsStyles(project)}>{taskLists(project, modalTeardown)}</div>
                 </DragDropContext> 
             </div>
         </div>

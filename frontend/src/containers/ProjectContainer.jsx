@@ -1,5 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProjectPage from '../components/project/ProjectPage'
+
+import {
+    getProject,
+    updateProject,
+} from '../services/api'
 
 // Change tasks order
 const changeOrder = (result, project) => {
@@ -15,26 +20,26 @@ const changeOrder = (result, project) => {
 }
 
 const ProjectContainer = ({
-    props,
-    setTasksOrder
+    props
 }) => {
-    const [project, setProject] = useState(props)
+    const [proj, setProj] = useState(getProject(2))
 
-    const createTask = (task) => {
-        setProject({project, tasks: [...project.tasks, task]})
+    const refreshPage = () => {
+        setProj({...getProject(2)})
     }
 
     // Executed at the end of a drag.
     const onDragEnd = (result) => {
-        console.log(result)
         if (result.destination != null) {
-            setProject(changeOrder(result, project))
+            updateProject(proj.id, changeOrder(result, proj))
+            refreshPage()
         }
     }
 
     return (
         <ProjectPage 
-            project={project} 
+            project={proj}
+            modalTeardown={refreshPage}
             setTasksOrder={onDragEnd}
         />
     )
