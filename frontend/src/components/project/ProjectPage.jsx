@@ -1,7 +1,7 @@
 import React from "react"
 import { DragDropContext } from "react-beautiful-dnd"
-import TaskList from "../Task/TaskList.jsx"
-import TaskModal from "../Task/TaskModal.jsx"
+import TaskList from "../task/TaskList.jsx"
+import TaskModal from "../task/TaskModal.jsx"
 import "./ProjectPage.css"
 
 const taskLists = (project, modalTeardown) => {
