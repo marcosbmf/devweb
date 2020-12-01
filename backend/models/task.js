@@ -1,13 +1,10 @@
-var db = require("mongoose")
+var mongoose = require("mongoose")
 
-var TaskSchema = new db.Schema({  
+var TaskSchema = new mongoose.Schema({  
     name: {type: String, required: true},
+    order: {type: Number, required: true, unique: true},
     description: {type: String},
-    deadline: {type: Date},
-    user: {type: String, required: true},
-    finished: {type: Boolean, default: false}
-   }, {collection: 'tasks'})
+    deadline: {type: Date, required: true}
+})
 
-var Task = db.model(name='Task', Schema=TaskSchema, skipInit=true);
-
-module.exports = {Task, TaskSchema}
+module.exports = TaskSchema
