@@ -4,6 +4,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var dotenv = require('dotenv');
 var mongoose = require("mongoose")
+var cors = require('cors')
 
 // INIT
 dotenv.config();
@@ -26,6 +27,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //router
+app.use(cors());
 app.use('/', router);
 
 module.exports = app;

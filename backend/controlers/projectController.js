@@ -9,9 +9,8 @@ const create = (req, res) => {
             error: 'You must provide a project',
         })
     }
-
     const project = new Project(body)
-    project.tasks = ['TODO', 'DOING', 'DONE'].map(s => ({status: s, tasks: []}))
+    project.tasks = ['TODO', 'DOING', 'DONE'].map(s => ({status: s}))
 
     if (!project) {
         return res.status(400).json({ success: false, error: err })

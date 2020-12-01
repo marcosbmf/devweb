@@ -20,8 +20,7 @@ const ProjectSchema = mongoose.Schema({
             required: true
         },
         tasks: {
-            type: [TaskSchema],
-            default: []
+            type: [TaskSchema]
         }
     }],
     createdAt: {
@@ -31,4 +30,5 @@ const ProjectSchema = mongoose.Schema({
 });
 
 const Project = mongoose.model('Project', ProjectSchema)
+Project.syncIndexes()
 module.exports = Project; 

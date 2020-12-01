@@ -1,9 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-
-import {
-    listProjects
-} from '../../services/api'
+import ProjectModal from './ProjectModal'
 
 const makeListItems = (projects) => projects.map(p => (
     <li key={p._id}>
@@ -11,11 +8,11 @@ const makeListItems = (projects) => projects.map(p => (
     </li>
 ))
 
-const ProjectListingPage = ({projects}) => {
-    console.log(projects)
+const ProjectListingPage = ({projects, teardown}) => {
     return (
         <div>
             <h1>Project List</h1>
+            <ProjectModal teardown={teardown}/>
             <ul>
                 {makeListItems(projects)}
             </ul> 

@@ -6,17 +6,33 @@ import {
     updateProject,
 } from '../services/api'
 
+//Correction of indexes
+const correctIndexes = project => {
+    return {
+        ...project,
+        tasks: project.tasks.map(tl => ({
+            ...tl,
+            tasks: tl.tasks.map((t, i) => ({...t, order: i}))
+        }))
+    }
+}
+
 // Change tasks order
 const changeOrder = (result, project) => {
+    const status = {
+        "TODO": 0,
+        "DOING": 1,
+        "DONE": 2
+    }
     const src = result.source
     const dst = result.destination
-    const tasksList = project.statusList.reduce((acc, s) => ({...acc, [s]: project.tasks.filter(t => t.status === s)}), {})
+    console.log(status[src.droppableId],  project.tasks[status[src.droppableId]])
 
-    tasksList[dst.droppableId].splice(dst.index, 0, tasksList[src.droppableId][src.index])
-    tasksList[src.droppableId].splice(src.index, 1)
-    tasksList[dst.droppableId][dst.index].status = dst.droppableId
-
-    return {...project, tasks: project.statusList.reduce((acc, k) => [...acc, ...tasksList[k]], [])}
+    const movedEl = project.tasks[status[src.droppableId]].tasks.splice(src.index, 1)[0]
+    console.log(movedEl)
+    project.tasks[status[dst.droppableId]].tasks.splice(dst.index, 0, movedEl)
+    
+    return correctIndexes(project)
 }
 
 const ProjectContainer = (
@@ -28,33 +44,23 @@ const ProjectContainer = (
     const getData = async () => {
         const req = await getProject(pid);
         if (req.status === 200) {
-            setProj(req.data.data || [])
+            setProj({...(req.data.data || {})})
         }
-        console.log(proj, pid)
     }
 
-    useEffect(() => {
-        getData()
-    }, [])
-
-    const refreshPage = () => {
-        getData()
-    }
+    useEffect(() => getData(), [])
 
     // Executed at the end of a drag.
-    const onDragEnd = (result) => {
-        console.log(result)
-        refreshPage()
-        return
+    const onDragEnd = async (result) => {
         if (result.destination != null) {
-            updateProject(proj.id, changeOrder(result, proj))
-            refreshPage()
+            await updateProject(pid, changeOrder(result, proj))
+            await getData()
         }
     }
 
     const render = proj ? (<ProjectPage 
         project={proj}
-        modalTeardown={refreshPage}
+        modalTeardown={getData}
         setTasksOrder={onDragEnd}
     />) : <h1>No Project Found</h1>
 

@@ -4,8 +4,13 @@
     background-color: lightgrey;
     margin: 0;
     min-width: 400px;
-    max-height: 500px;
+    min-height: 400px;
+    text-align: center;
     overflow-y: scroll;
+}
+
+.taskList figcaption{
+    border: solid black 1px;
 }
 
 .taskList ul {

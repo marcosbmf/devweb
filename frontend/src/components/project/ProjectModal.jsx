@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
+import { useHistory } from "react-router-dom";
 import Modal from 'react-modal'
 import moment from 'moment'
 
 import {
+    createProject,
+    deleteProject,
     updateProject
 } from '../../services/api'
 
@@ -18,49 +21,20 @@ const customStyles = {
     }
 };
 
-const correctIndexes = project => {
-    return {
-        ...project,
-        tasks: project.tasks.map(tl => ({
-            ...tl,
-            tasks: tl.tasks.map((t, i) => ({...t, order: i}))
-        }))
-    }
-}
-
-const createTask = async (project, task) => {
-    project.tasks[task.status].tasks.push(task)
-    await updateProject(project._id, correctIndexes(project))
-}
-
-const updateTask = async (project, newTask, oldTask) => {
-    if(oldTask.status !== newTask.status) {
-        project.tasks[oldTask.status].tasks.splice(oldTask.order, 1)
-        project.tasks[newTask.status].tasks.push(newTask)
-    } else {
-        project.tasks[oldTask.status].tasks[oldTask.order] = newTask
-    }
-    await updateProject(project._id, correctIndexes(project))
-}
-
-const deleteTask = async (project, oldTask) => {
-    project.tasks[oldTask.status].tasks.splice(oldTask.order, 1)
-    await updateProject(project._id, correctIndexes(project))
-}
-
-function TaskModal({teardown, project, edit}){
-    const [modalIsOpen, setModalIsOpen] = useState(!!edit);
-    const [task, setTask] = useState({
+function ProjectModal({ teardown, edit}){
+    const history = useHistory();
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [project, setProject] = useState({
             name: "",
             deadline: moment().toISOString(false).slice(0, 10),
             description: "",
-            status: 0,
             ...(edit || {})
         });
+
     const changeAttr = (event) => {
         let nam = event.target.name
         let val = event.target.value
-        setTask({...task, [nam]: val})
+        setProject({...project, [nam]: val})
     }
 
     const openModal = ()=>{
@@ -75,32 +49,33 @@ function TaskModal({teardown, project, edit}){
     }
 
     const save = async () => {
-        edit ? await updateTask(project, task, edit) : await createTask(project, task)
+        edit ? await updateProject(project._id, project) : await createProject(project)
         closeModal()
     }
 
     const deleteButton = async () => {
-        if (edit) await deleteTask(project, edit)
+        if (edit) await deleteProject(project._id)
         closeModal()
+        history.push('/')
     }
 
     return(
         <>
-           {!edit ? <button onClick={openModal}>Add Task</button> : null}
+           <button onClick={openModal}>{edit ? "Edit" : "Add" } Project</button>
            <Modal 
                 isOpen={modalIsOpen} 
                 style={customStyles}
                 onAfterClose={teardown}
                 ariaHideApp={false}
            >
-                <p>{edit ? "EDIT" : "ADD" } TASK: </p>
+                <p>{edit ? "EDIT" : "ADD" } PROJECT: </p>
                 <form>
                     <div>
                         <label>Name: </label>
                         <input
                             type='text'
                             name='name'
-                            value={task.name}
+                            value={project.name}
                             onChange={changeAttr}
                         />
                     </div>
@@ -111,21 +86,9 @@ function TaskModal({teardown, project, edit}){
                             type='date'
                             name='deadline'
                             placeholder="dd-mm-yyyy"
-                            value={moment(task.deadline).toISOString(false).slice(0, 10)}
+                            value={moment(project.deadline).toISOString(false).slice(0, 10)}
                             onChange={changeAttr}
                         />
-                    </div>
-
-                    <div>
-                        <label>Status: </label>
-                        <select
-                            type='text'
-                            name='status'
-                            value={task.status}
-                            onChange={changeAttr}
-                        >
-                            {project.tasks.map((k, i) => (<option key={i} value={i}>{k.status}</option>))}
-                        </select>
                     </div>
 
                     <div>
@@ -133,11 +96,12 @@ function TaskModal({teardown, project, edit}){
                         <textarea
                             type='text'
                             name='description'
-                            value={task.description}
+                            value={project.description}
                             rows={5}
                             onChange={changeAttr}
                         />
                     </div>
+                    
              </form>
 
              <button onClick={save}>Save</button> {edit ? <button onClick={deleteButton}>Delete</button> : null} <button onClick={closeModal}>Close</button>
@@ -146,4 +110,4 @@ function TaskModal({teardown, project, edit}){
     )
 }
 
-export default TaskModal
+export default ProjectModal

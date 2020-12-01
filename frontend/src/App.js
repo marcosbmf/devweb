@@ -4,7 +4,6 @@ import './App.css';
 import NavBar from './components/common/Navbar/navbar';
 import ProjectContainer from './containers/ProjectContainer'
 import ProjectListingContainer from './containers/ProjectListContainer'
-import mock from './services/ProjectMock.json'
 
 function App() {
   return (

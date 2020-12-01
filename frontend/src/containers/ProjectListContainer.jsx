@@ -8,17 +8,19 @@ import {
 const ProjectListingContainer = (props) => {
     const [projects, setProjects] = useState([])
 
+    const getData = async () => {
+        const req = await listProjects();
+        if (req.status === 200) {
+            setProjects(req.data || [])
+        }
+    }
+
     useEffect(() => {
-        (async () => {
-            const req = await listProjects();
-            if (req.status === 200) {
-                setProjects(req.data || [])
-            }
-        })()
+        getData()
     }, [])
     
     return (
-        <ProjectListingPage projects={projects}/>
+        <ProjectListingPage projects={projects} teardown={getData}/>
     )
 }
 

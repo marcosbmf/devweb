@@ -1,6 +1,12 @@
 # devweb
 Repositório para a disciplina Princípios de Desenvolvimento Web
 
+## Como executar:
+Backend: Docker, node
+  - make run
+Frontend: React
+  - make run
+
 # Sistema de gestão de projetos
 
 - O usuário pode se cadastrar e começar a adicionar projetos.
