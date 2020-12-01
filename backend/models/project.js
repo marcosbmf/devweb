@@ -1,14 +1,34 @@
-var db = require("mongoose")
-var Task = require("./task.js")
+const mongoose = require("mongoose")
+const TaskSchema = require("./task.js")
 
-var ProjectSchema = new db.Schema({  
-    name: {type: String, required: true},
-    description: {type: String},
-    deadline: {type: Date},
-    Tasks: [Task.TaskSchema],
-    user: {type: db.Schema.Types.ObjectId, ref: 'User'}
-   }, {collection: 'Projects'})
+const ProjectSchema = mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: false,
+    },
+    deadline: {
+        type: Date,
+        required: true,
+    },
+    tasks: [{
+        status: {
+            type: String,
+            required: true
+        },
+        tasks: {
+            type: [TaskSchema],
+            default: []
+        }
+    }],
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+});
 
-var Project = db.model(name='Project', Schema=ProjectSchema, skipInit=true);
-
-module.exports = {Project, ProjectSchema}
+const Project = mongoose.model('Project', ProjectSchema)
+module.exports = Project; 

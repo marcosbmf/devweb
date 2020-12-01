@@ -15,8 +15,7 @@ var db = mongoose.connection
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // Routers
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var router = require('./routes/index.js');
 
 var app = express();
 
@@ -26,8 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Endpoints
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//router
+app.use('/', router);
 
 module.exports = app;
