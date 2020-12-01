@@ -1,14 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import './App.css';
+import NavBar from './components/common/Navbar/navbar';
 import ProjectContainer from './containers/ProjectContainer'
-import mock from "./ProjectMock.json"
+import ProjectListingContainer from './containers/ProjectListContainer'
+import mock from './services/ProjectMock.json'
 
 function App() {
   return (
-    <div className="App">
-      <ProjectContainer props={mock[1]}/>
-    </div>
+    <BrowserRouter>
+        <NavBar></NavBar>
+        <Switch>
+          <Route path="/" exact component={ProjectListingContainer}/>
+          <Route path="/project/:id" exact component={ProjectContainer}/>
+        </Switch>
+    </BrowserRouter>
   );
 }
 
