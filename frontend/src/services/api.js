@@ -1,15 +1,18 @@
+import Axios from 'axios';
 import ProjectMock from './ProjectMock'
+
+const Api = Axios.create({
+  baseURL: 'http://localhost:2500'
+});
 
 const projectIndex = (pid) => ProjectMock.map(p => p.id).indexOf(pid)
 const taskIndex = (tid, project) => project.tasks.map(t => t.id).indexOf(tid)
 
-export const listProjects = () => ProjectMock
-export const getProject = (pid) => ProjectMock[projectIndex(pid)]
-
-export const updateProject = (pid, project) => {
-    const index = projectIndex(pid)
-    ProjectMock[index] = project
-}
+export const listProjects = () => Api.get('/project')
+export const getProject = (pid) => Api.get('/project/' + pid)
+export const createProject = (project) => Api.get('/project', project)
+export const updateProject = (pid, project) => Api.put('/project/' +  pid, project)
+export const deleteProject = (pid) => Api.delete('/project/' + pid)
 
 export const getTask = (pid, tid) => {
     const proj = getProject(pid)

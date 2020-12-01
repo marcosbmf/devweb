@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ProjectPage from '../components/project/ProjectPage'
 
 import {
@@ -22,28 +22,43 @@ const changeOrder = (result, project) => {
 const ProjectContainer = (
     props
 ) => {
-    const pid = parseInt(props.match.params.id)
-    const [proj, setProj] = useState({...getProject(pid)})
+    const pid = props.match.params.id
+    const [proj, setProj] = useState(null)
+
+    const getData = async () => {
+        const req = await getProject(pid);
+        if (req.status === 200) {
+            setProj(req.data.data || [])
+        }
+        console.log(proj, pid)
+    }
+
+    useEffect(() => {
+        getData()
+    }, [])
 
     const refreshPage = () => {
-        setProj({...getProject(pid)})
+        getData()
     }
 
     // Executed at the end of a drag.
     const onDragEnd = (result) => {
+        console.log(result)
+        refreshPage()
+        return
         if (result.destination != null) {
             updateProject(proj.id, changeOrder(result, proj))
             refreshPage()
         }
     }
 
-    return (
-        <ProjectPage 
-            project={proj}
-            modalTeardown={refreshPage}
-            setTasksOrder={onDragEnd}
-        />
-    )
+    const render = proj ? (<ProjectPage 
+        project={proj}
+        modalTeardown={refreshPage}
+        setTasksOrder={onDragEnd}
+    />) : <h1>No Project Found</h1>
+
+    return render
 }
 
 export default ProjectContainer;

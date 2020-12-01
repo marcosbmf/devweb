@@ -3,9 +3,7 @@ import Modal from 'react-modal'
 import moment from 'moment'
 
 import {
-    addTask,
-    updateTask,
-    deleteTask
+    updateProject
 } from '../../services/api'
 
 const customStyles = {
@@ -20,13 +18,44 @@ const customStyles = {
     }
 };
 
+const correctIndexes = project => {
+    return {
+        ...project,
+        tasks: project.tasks.map(tl => ({
+            ...tl,
+            tasks: tl.tasks.map((t, i) => ({...t, order: i}))
+        }))
+    }
+}
+
+const createTask = (project, task) => {
+    project.tasks[task.status].tasks.push(task)
+    updateProject(project._id, correctIndexes(project))
+}
+
+const updateTask = (project, newTask, oldTask) => {
+    return //TODO
+    const oldIndex = project.tasks[oldTask.status].tasks.map(t => t._id).indexOf(oldTask._id)
+    if(oldTask.status !== newTask.status) {
+        project.tasks[oldTask.status].tasks.slice(oldIndex, 1)
+        project.tasks[newTask.status].tasks.push(newTask)
+    } else {
+        project.tasks[oldTask.status].tasks[oldIndex] = newTask
+    }
+    updateProject(project._id, correctIndexes(project))
+}
+
+const deleteTask = (project, task) => {
+    return //TODO
+}
+
 function TaskModal({teardown, project, edit}){
     const [modalIsOpen, setModalIsOpen] = useState(!!edit);
     const [task, setTask] = useState({
             name: "",
             deadline: moment().toISOString(true).slice(0, 10),
             description: "",
-            status: "TODO",
+            status: 0,
             ...(edit || {})
         });
 
@@ -45,7 +74,7 @@ function TaskModal({teardown, project, edit}){
     }
 
     const save = () => {
-        edit ? updateTask(project.id, task.id, task) : addTask(project.id, task)
+        edit ? updateTask(project.id, task.id, task) : createTask(project, task)
         closeModal()
     }
 
@@ -81,7 +110,7 @@ function TaskModal({teardown, project, edit}){
                             type='date'
                             name='deadline'
                             placeholder="dd-mm-yyyy"
-                            value={task.deadline}
+                            value={moment(task.deadline).toISOString(true).slice(0, 10)}
                             onChange={changeAttr}
                         />
                     </div>
@@ -94,7 +123,7 @@ function TaskModal({teardown, project, edit}){
                             value={task.status}
                             onChange={changeAttr}
                         >
-                            {project.statusList.map(k => (<option key={k} value={k}>{k}</option>))}
+                            {project.tasks.map((k, i) => (<option key={i} value={i}>{k.status}</option>))}
                         </select>
                     </div>
 

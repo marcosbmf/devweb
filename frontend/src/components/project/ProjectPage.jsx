@@ -6,17 +6,15 @@ import TaskModal from "../task/TaskModal.jsx"
 import "./ProjectPage.css"
 
 const taskLists = (project, modalTeardown) => {
-    return project.statusList.map(status => <TaskList
+    return project.tasks.map((_, i) => <TaskList
             project={project}
-            key={status}
-            name={status}
+            statusIndex={i}
             modalTeardown={modalTeardown}
-            tasks={project.tasks.filter(t => t.status === status)}
         />)
 }
 
 const taskListsStyles = (project) => ({
-    gridTemplateColumns: 'repeat(' + project.statusList.length + ', 1fr)'
+    gridTemplateColumns: 'repeat(' + Object.keys(project.tasks).length + ', 1fr)'
 })
 
 const ProjectPage = ({
@@ -25,23 +23,23 @@ const ProjectPage = ({
     setTasksOrder
 }) => {
     return (
-        <div className="container">
-            <div className="header">
-                <h1>{project.name}</h1>
-                <div><b>Description:</b><span>{project.description}</span></div>
-                <div><b>Deadline:</b> {(new Date(project.deadline)).toLocaleDateString()}</div>
+            <div className="container">
+                <div className="header">
+                    <h1>{project.name}</h1>
+                    <div><b>Description:</b><span>{project.description}</span></div>
+                    <div><b>Deadline:</b> {(new Date(project.deadline)).toLocaleDateString()}</div>
+                </div>
+                <div className='footer'>
+                    <h3>Tasks:</h3>
+                    <TaskModal 
+                        project={project}
+                        teardown={modalTeardown}
+                    ></TaskModal>
+                    <DragDropContext onDragEnd={setTasksOrder}>
+                        <div className="tasksLists" style={taskListsStyles(project)}>{taskLists(project, modalTeardown)}</div>
+                    </DragDropContext> 
+                </div>
             </div>
-            <div className='footer'>
-                <h3>Tasks:</h3>
-                <TaskModal 
-                    project={project}
-                    teardown={modalTeardown}
-                ></TaskModal>
-                <DragDropContext onDragEnd={setTasksOrder}>
-                    <div className="tasksLists" style={taskListsStyles(project)}>{taskLists(project, modalTeardown)}</div>
-                </DragDropContext> 
-            </div>
-        </div>
     )
 }
 

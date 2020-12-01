@@ -6,13 +6,13 @@ import {
 } from '../../services/api'
 
 const makeListItems = (projects) => projects.map(p => (
-    <li>
-       <div><Link to={'/project/' + p.id}>{p.name}</Link></div>
-
+    <li key={p._id}>
+       <div><Link to={'/project/' + p._id}>{p.name}</Link></div>
     </li>
 ))
 
 const ProjectListingPage = ({projects}) => {
+    console.log(projects)
     return (
         <div>
             <h1>Project List</h1>
