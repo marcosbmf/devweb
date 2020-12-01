@@ -1,0 +1,23 @@
+.navbar {
+    background-color: rgb(45, 27, 87);
+    color: azure;
+    align-items: center;
+    border: solid rgb(11, 3, 46) 3px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .navbar .buttons {
+    align-items: center;
+    display: grid;
+    grid-template-columns: 110px 110px 110px;
+    margin: 8px;
+  }
+  
+  .navbar .buttons a:hover {
+    color: rgb(0, 0, 0);
+  }
+  
+  .navbar .buttons a {
+    color: azure;
+  }

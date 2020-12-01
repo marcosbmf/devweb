@@ -1,5 +1,6 @@
 import React from "react"
 import { DragDropContext } from "react-beautiful-dnd"
+import NavBar from '../common/Navbar/navbar'
 import TaskList from "../task/TaskList.jsx"
 import TaskModal from "../task/TaskModal.jsx"
 import "./ProjectPage.css"

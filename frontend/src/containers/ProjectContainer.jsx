@@ -19,13 +19,14 @@ const changeOrder = (result, project) => {
     return {...project, tasks: project.statusList.reduce((acc, k) => [...acc, ...tasksList[k]], [])}
 }
 
-const ProjectContainer = ({
+const ProjectContainer = (
     props
-}) => {
-    const [proj, setProj] = useState(getProject(2))
+) => {
+    const pid = parseInt(props.match.params.id)
+    const [proj, setProj] = useState({...getProject(pid)})
 
     const refreshPage = () => {
-        setProj({...getProject(2)})
+        setProj({...getProject(pid)})
     }
 
     // Executed at the end of a drag.

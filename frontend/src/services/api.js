@@ -1,9 +1,9 @@
-import ProjectMock from '../ProjectMock'
+import ProjectMock from './ProjectMock'
 
 const projectIndex = (pid) => ProjectMock.map(p => p.id).indexOf(pid)
 const taskIndex = (tid, project) => project.tasks.map(t => t.id).indexOf(tid)
 
-export const listProjects = ProjectMock
+export const listProjects = () => ProjectMock
 export const getProject = (pid) => ProjectMock[projectIndex(pid)]
 
 export const updateProject = (pid, project) => {
